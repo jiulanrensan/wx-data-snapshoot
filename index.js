@@ -48,21 +48,6 @@ export function proxyOrigin({
     curretnIsTab = tabPageList.includes(currentRoute);
   }
 
-  /**
-   * 页面销毁只会触发 onUnload, 不会触发 onHide
-   * 组件销毁只会触发 lifetimes.detached, 也不会触发 pageLifetimes.hide
-   *
-   * 但是tab页不会有销毁事件，只会onHide，对应页面的组件也只会触发onHide
-   *
-   * 所以tab页只监听onhide，其他页面监听onUnload
-   *
-   * 组件在ready时(page onshow -> component ready)，判断是否tab页，不是则监听lifetimes.detached
-   * 但tab页会频繁onhide，没有发生setData的话去记录会造成浪费
-   * 所以tab页应该在 app onHide 去记录 this.data
-   * 所以需要用一个全局变量引用tab页的this.data
-   *
-   * 记录方式：
-   */
   function handleAppOptions(options) {
     overrideHook(options, "onHide", appOnHide);
   }
